@@ -11,6 +11,7 @@ public class TransferApplication {
 	public static final Logger LOGGER = Logger.getLogger(TransferApplication.class);
 
 	public static void main(String[] args) throws Exception {
+
 		Server jettyServer = new Server(9081);
 
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
@@ -20,11 +21,10 @@ public class TransferApplication {
 
 		ServletHolder jerseyServlet = context.addServlet(ServletContainer.class, "/api/*");
 		jerseyServlet.setInitOrder(0);
-		jerseyServlet.setInitParameter("jersey.config.server.provider.packages", "com.revolut.endpoints");
+		jerseyServlet.setInitParameter("jersey.config.server.provider.packages", "com.revolut.api");
 
 		jettyServer.start();
 		jettyServer.join();
 		LOGGER.info("Server started with port 9081");
 	}
-
 }

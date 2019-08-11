@@ -12,7 +12,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-eclipse-plugin</artifactId>
-        <version>2.9</version>
+        <version>2.10</version>
         <configuration>
           <downloadSources>true</downloadSources>
           <downloadJavadocs>false</downloadJavadocs>
@@ -38,12 +38,12 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>com.revolut.main.TransferApplication</mainClass>
+          <mainClass>com.revolut.main.RunTests</mainClass>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>3.2.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -55,7 +55,7 @@
                 <transformer />
                 <transformer>
                   <manifestEntries>
-                    <Main-Class>com.revolut.main.TransferApplication</Main-Class>
+                    <Main-Class>com.revolut.main.RunTests</Main-Class>
                   </manifestEntries>
                 </transformer>
               </transformers>
@@ -83,4 +83,3 @@
     <jetty.version>9.4.6.v20180619</jetty.version>
   </properties>
 </project>
-
