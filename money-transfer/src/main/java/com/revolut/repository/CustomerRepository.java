@@ -4,6 +4,6 @@ import com.revolut.entities.Customer;
 
 public interface CustomerRepository {
 
-	boolean addCustomer(Customer customer);
+	Customer addCustomer(Customer customer);
 
 }

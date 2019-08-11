@@ -6,10 +6,16 @@ import com.revolut.repository.BankRepositoryImpl;
 
 public class BankServiceImpl implements BankService {
 
+	private BankRepository bankRepository = new BankRepositoryImpl();
+
 	@Override
 	public boolean addBank(Bank bank) {
-		BankRepository bankRepository = new BankRepositoryImpl();
 		return bankRepository.addBank(bank);
+	}
+
+	@Override
+	public Bank findBank(String bankCode) {
+		return bankRepository.findBank(bankCode);
 	}
 
 }

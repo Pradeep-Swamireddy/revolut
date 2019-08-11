@@ -6,4 +6,6 @@ public interface BankService {
 
 	boolean addBank(Bank bank);
 	
+	Bank findBank(String bankCode); 
+	
 }

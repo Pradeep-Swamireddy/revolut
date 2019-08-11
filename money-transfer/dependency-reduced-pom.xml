@@ -79,6 +79,6 @@
   </build>
   <properties>
     <jersey.version>2.27</jersey.version>
-    <jetty.version>9.4.6.v20180619</jetty.version>
+    <jetty.version>9.4.17.v20190418</jetty.version>
   </properties>
 </project>

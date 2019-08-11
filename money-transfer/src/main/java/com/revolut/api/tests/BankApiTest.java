@@ -23,10 +23,7 @@ public class BankApiTest extends JerseyTest {
 
 	@Test
 	public void testAddBank() {
-		Bank bank = new Bank();
-		bank.setCode("B40");
-		bank.setBankName("HSBC");
-		bank.setAddress("Canary Wharf, London");
+		Bank bank = getBank();
 		Response output = target("/banks").request().post(Entity.entity(bank, MediaType.APPLICATION_JSON));
 		assertEquals(Response.Status.OK.getStatusCode(), output.getStatus(), "Should return Status OK");
 		LOG.info(output.readEntity(String.class));
@@ -34,16 +31,10 @@ public class BankApiTest extends JerseyTest {
 	
 	@Test
 	public void testAddCustomer() {
-		Customer customer = new Customer();
-		Bank bank = new Bank();
-		bank.setCode("B40");
-		customer.setBank(bank);
-		customer.setFirstName("Pradeep");
-		customer.setLastName("Swamireddy");
-		customer.setAddress("Canning Town, London");
-		Response output = target("/banks/B40/customers").request().post(Entity.entity(customer, MediaType.APPLICATION_JSON));
-		assertEquals(Response.Status.OK.getStatusCode(), output.getStatus(), "Should return Status OK");
-		LOG.info(output.readEntity(String.class));
+		Customer customer =getCustomer();
+		Response custOutput = target("/banks/B40/customers").request().post(Entity.entity(customer, MediaType.APPLICATION_JSON));
+		assertEquals(Response.Status.OK.getStatusCode(), custOutput.getStatus(), "Should return Status OK");
+		LOG.info(custOutput.readEntity(String.class));
 	}
 
 
@@ -52,5 +43,21 @@ public class BankApiTest extends JerseyTest {
 		enable(TestProperties.LOG_TRAFFIC);
 		enable(TestProperties.DUMP_ENTITY);
 		return new ResourceConfig(BankApi.class);
+	}
+	
+	private Bank getBank() {
+		Bank bank = new Bank();
+		bank.setCode("B40");
+		bank.setBankName("HSBC");
+		bank.setAddress("Canary Wharf, London");
+		return bank;
+	}
+	
+	private Customer getCustomer() {
+		Customer customer = new Customer();
+		customer.setFirstName("Pradeep");
+		customer.setLastName("Swamireddy");
+		customer.setAddress("Canning Town, London");
+		return customer;
 	}
 }

@@ -8,7 +8,7 @@
 	<name>money-transfer</name>
 	<description>Application to Transfer money</description>
 	<properties>
-		<jetty.version>9.4.6.v20180619</jetty.version>
+		<jetty.version>9.4.17.v20190418</jetty.version>
 		<jersey.version>2.27</jersey.version>
 	</properties>
 	<dependencies>

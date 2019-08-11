@@ -13,7 +13,7 @@ public class BankRepositoryImpl implements BankRepository, HibernateRepository {
 
 	private static SessionFactory sessionFactory;
 
-	public static SessionFactory getSessionFactory() {
+	private static SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
 			sessionFactory = HibernateRepository.createSessionFactory();
 		}
