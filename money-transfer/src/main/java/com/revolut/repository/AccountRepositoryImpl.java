@@ -5,11 +5,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.jboss.logging.Logger;
 
-import com.revolut.entities.Bank;
+import com.revolut.entities.Account;
 
-public class BankRepositoryImpl implements BankRepository, HibernateRepository {
+public class AccountRepositoryImpl implements AccountRepository,HibernateRepository{
 
-	public static final Logger LOG = Logger.getLogger(BankRepositoryImpl.class);
+	public static final Logger LOG = Logger.getLogger(AccountRepositoryImpl.class);
 
 	private static SessionFactory sessionFactory;
 
@@ -19,30 +19,21 @@ public class BankRepositoryImpl implements BankRepository, HibernateRepository {
 		}
 		return sessionFactory;
 	}
-
+	
 	@Override
-	public boolean addBank(Bank bank) {
-		boolean bankAdded = false;
+	public Account addAccount(Account account) {
 		Transaction transaction = null;
 		try (Session session = getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			session.save(bank);
+			session.save(account.getCustomer().getBank());
+			session.save(account.getCustomer());
+			session.save(account);
 			transaction.commit();
-			bankAdded = true;
+			return account;
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			LOG.error(e.getMessage());
-		}
-		return bankAdded;
-	}
-
-	@Override
-	public Bank findBank(String code) {
-		try (Session session = getSessionFactory().openSession()) {
-			return session.get(Bank.class, code);
-		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}
 		return null;

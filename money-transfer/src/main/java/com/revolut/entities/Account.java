@@ -16,9 +16,16 @@ public class Account {
 	private long id;
 
 	private long balance;
-	
-	@OneToOne(mappedBy="account")
+
+	@OneToOne(mappedBy = "account")
 	private Customer customer;
+
+	public Account(long balance) {
+		this.balance = balance;
+	}
+	
+	public Account() {
+	}
 
 	public long getId() {
 		return id;

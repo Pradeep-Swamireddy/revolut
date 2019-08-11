@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -23,6 +24,18 @@ public class Bank {
 	@JsonProperty
 	@OneToMany
 	private Set<Customer> customers;
+
+	@JsonCreator
+	public Bank(@JsonProperty("BankCode") String code, @JsonProperty("Name") String bankName,
+			@JsonProperty("Address") String address) {
+		this.address = address;
+		this.bankName = bankName;
+		this.code = code;
+	}
+
+	@JsonCreator
+	public Bank() {
+	}
 
 	public String getCode() {
 		return code;
@@ -55,4 +68,5 @@ public class Bank {
 	public void setAccounts(Set<Customer> accounts) {
 		this.customers = accounts;
 	}
+
 }

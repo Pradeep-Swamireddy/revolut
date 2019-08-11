@@ -1,11 +1,11 @@
-package com.revolut.repository;
+package com.revolut.service;
 
 import org.jboss.logging.Logger;
 
 import com.revolut.entities.Bank;
 import com.revolut.entities.Customer;
-import com.revolut.service.BankService;
-import com.revolut.service.BankServiceImpl;
+import com.revolut.repository.CustomerRepository;
+import com.revolut.repository.CustomerRepositoryImpl;
 
 public class CustomerServiceImpl implements CustomerService {
 
@@ -24,6 +24,16 @@ public class CustomerServiceImpl implements CustomerService {
 		} else
 			LOG.error("Bank not found with code: " + bankCode);
 		return null;
+	}
+
+	@Override
+	public Customer findCustomer(long customerId) {
+		return custRepo.findCustomer(customerId);
+	}
+
+	@Override
+	public Customer findCustomer(long customerId, String bankCode) {
+		return custRepo.findCustomer(customerId, bankCode);
 	}
 
 }

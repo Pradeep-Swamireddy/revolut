@@ -19,12 +19,21 @@ public class Customer {
 
 	private String address;
 
-	@OneToOne(targetEntity=Customer.class)
+	@OneToOne(targetEntity = Customer.class)
 	private Account account;
 
-	@ManyToOne(targetEntity=Bank.class,optional=false)
+	@ManyToOne(targetEntity = Bank.class, optional = false)
 	private Bank bank;
-	
+
+	public Customer(String firstName, String lastName, String address) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+	}
+
+	public Customer() {
+	}
+
 	public long getId() {
 		return id;
 	}

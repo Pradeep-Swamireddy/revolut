@@ -11,12 +11,15 @@ import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 
+import com.revolut.entities.Account;
 import com.revolut.entities.Bank;
 import com.revolut.entities.Customer;
-import com.revolut.repository.CustomerService;
-import com.revolut.repository.CustomerServiceImpl;
+import com.revolut.service.AccountService;
+import com.revolut.service.AccountServiceImpl;
 import com.revolut.service.BankService;
 import com.revolut.service.BankServiceImpl;
+import com.revolut.service.CustomerService;
+import com.revolut.service.CustomerServiceImpl;
 
 @Path("/banks")
 public class BankApi {
@@ -24,6 +27,7 @@ public class BankApi {
 
 	private BankService bankService = new BankServiceImpl();
 	private CustomerService custService = new CustomerServiceImpl();
+	private AccountService accountService = new AccountServiceImpl();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -60,6 +64,27 @@ public class BankApi {
 			statusCode = Status.EXPECTATION_FAILED;
 			responseMessage = String.format("Failed to create Customer with Name: %s in Bank: %s",
 					customer.getFirstName(), bankCode);
+		}
+		return Response.status(statusCode).entity(responseMessage).build();
+	}
+
+	@POST
+	@Path("/{bankCode}/customers/{customerId}/accounts")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response addAccount(Account account, @PathParam("bankCode") String bankCode,
+			@PathParam("customerId") String customerId) {
+		Status statusCode;
+		String responseMessage;
+		Account newAccount = accountService.addAccount(account, bankCode, Long.parseLong(customerId));
+		if (newAccount != null) {
+			statusCode = Status.OK;
+			responseMessage = String.format("Account no: %s with initial balance of %s created for Customer Id: %s",
+					newAccount.getId(), newAccount.getBalance(), newAccount.getCustomer().getId());
+		} else {
+			statusCode = Status.EXPECTATION_FAILED;
+			responseMessage = String.format("Failed to create Account for Customer Id: %s under Bank: %s",
+					account.getCustomer().getId(), account.getCustomer().getBank().getBankName());
 		}
 		return Response.status(statusCode).entity(responseMessage).build();
 	}

@@ -18,20 +18,17 @@ public class CustomerRepositoryTest {
 
 	@Before
 	public void setup() {
-		Bank bank = new Bank();
-		bank.setCode("B30");
-		bank.setBankName("Lloyds");
-		bank.setAddress("East Ham, London");
+		bank = new Bank();
+		bank.setCode("B20");
+		bank.setBankName("Barclays");
+		bank.setAddress("Northampton");
 	}
 
 	@Test
 	public void testAddCustomer() {
 		CustomerRepository customerRepository = new CustomerRepositoryImpl();
-		Customer customer = new Customer();
+		Customer customer = new Customer("Pradeep", "Swamireddy", "520 Alpha House, Northampton, NN1 2HQ");
 		customer.setBank(bank);
-		customer.setAddress("45 Sheppard St, Canning Town");
-		customer.setFirstName("Pradeep");
-		customer.setLastName("Swamireddy");
 		Customer newCustomer = customerRepository.addCustomer(customer);
 		assertNotEquals(null, newCustomer);
 		if (newCustomer != null)
