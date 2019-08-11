@@ -102,7 +102,7 @@
 	</dependencies>
 	<build>
 		<finalName>money-transfer</finalName>
-		<outputDirectory>target</outputDirectory>
+		<!-- <outputDirectory>target</outputDirectory> -->
 		<plugins>
 			<!-- download source code in Eclipse, best practice -->
 			<plugin>
