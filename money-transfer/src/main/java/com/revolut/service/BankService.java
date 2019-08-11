@@ -4,7 +4,7 @@ import com.revolut.entities.Bank;
 
 public interface BankService {
 
-	boolean addBank(Bank bank);
+	Bank addBank(Bank bank);
 	
 	Bank findBank(String bankCode); 
 	

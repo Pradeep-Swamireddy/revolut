@@ -9,7 +9,7 @@ public class BankServiceImpl implements BankService {
 	private BankRepository bankRepository = new BankRepositoryImpl();
 
 	@Override
-	public boolean addBank(Bank bank) {
+	public Bank addBank(Bank bank) {
 		return bankRepository.addBank(bank);
 	}
 

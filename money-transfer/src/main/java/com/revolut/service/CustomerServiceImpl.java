@@ -17,6 +17,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer addCustomer(Customer customer, String bankCode) {
+		LOG.info("Bank Code: "+bankCode);
 		Bank bank = bankService.findBank(bankCode);
 		if (bank != null) {
 			customer.setBank(bank);

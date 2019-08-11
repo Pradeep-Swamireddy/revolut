@@ -21,21 +21,20 @@ public class BankRepositoryImpl implements BankRepository, HibernateRepository {
 	}
 
 	@Override
-	public boolean addBank(Bank bank) {
-		boolean bankAdded = false;
+	public Bank addBank(Bank bank) {
 		Transaction transaction = null;
 		try (Session session = getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			session.save(bank);
 			transaction.commit();
-			bankAdded = true;
+			return bank;
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
 			LOG.error(e.getMessage());
 		}
-		return bankAdded;
+		return null;
 	}
 
 	@Override
@@ -44,8 +43,7 @@ public class BankRepositoryImpl implements BankRepository, HibernateRepository {
 			return session.get(Bank.class, code);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
+			return null;
 		}
-		return null;
 	}
-
 }

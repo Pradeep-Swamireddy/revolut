@@ -14,12 +14,15 @@ import org.jboss.logging.Logger;
 import com.revolut.entities.Account;
 import com.revolut.entities.Bank;
 import com.revolut.entities.Customer;
+import com.revolut.entities.Transfer;
 import com.revolut.service.AccountService;
 import com.revolut.service.AccountServiceImpl;
 import com.revolut.service.BankService;
 import com.revolut.service.BankServiceImpl;
 import com.revolut.service.CustomerService;
 import com.revolut.service.CustomerServiceImpl;
+import com.revolut.service.TransferService;
+import com.revolut.service.TransferServiceImpl;
 
 @Path("/banks")
 public class BankApi {
@@ -28,6 +31,7 @@ public class BankApi {
 	private BankService bankService = new BankServiceImpl();
 	private CustomerService custService = new CustomerServiceImpl();
 	private AccountService accountService = new AccountServiceImpl();
+	private TransferService transferService = new TransferServiceImpl();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -36,7 +40,7 @@ public class BankApi {
 		LOG.info(bank.getBankName());
 		Status statusCode;
 		String responseMessage;
-		if (bankService.addBank(bank)) {
+		if (bankService.addBank(bank) != null) {
 			statusCode = Status.OK;
 			responseMessage = String.format("Bank Name: %s, Code: %s created successfully", bank.getBankName(),
 					bank.getCode());
@@ -85,6 +89,36 @@ public class BankApi {
 			statusCode = Status.EXPECTATION_FAILED;
 			responseMessage = String.format("Failed to create Account for Customer Id: %s under Bank: %s",
 					account.getCustomer().getId(), account.getCustomer().getBank().getBankName());
+		}
+		return Response.status(statusCode).entity(responseMessage).build();
+	}
+
+	@POST
+	@Path("/{bankCode}/customers/{customerId}/accounts/{accountId}/transfers")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response moneyTransfer(Transfer transfer, @PathParam("bankCode") String bankCode,
+			@PathParam("customerId") String customerId, @PathParam("accountId") String accountId) {
+		Status statusCode;
+		String responseMessage;
+		Account senderAccount = new Account();
+		Bank senderBank = new Bank();
+		Customer sender = new Customer();
+		senderBank.setCode(bankCode);
+		sender.setId(Long.parseLong(customerId));
+		sender.setBank(senderBank);
+		senderAccount.setCustomer(sender);
+		senderAccount.setId(Long.parseLong(accountId));
+		transfer.setSender(senderAccount);
+		Transfer afterTransfer = transferService.moneyTransfer(transfer);
+		if (afterTransfer != null) {
+			statusCode = Status.OK;
+			responseMessage = String.format("Transaction successful for amount: %s between sender: %s and receiver: %s",
+					afterTransfer.getAmount(), afterTransfer.getSender().getId(), afterTransfer.getReceiver().getId());
+		} else {
+			statusCode = Status.EXPECTATION_FAILED;
+			responseMessage = String.format("Transaction Failed for amount: %s between sender: %s and receiver: %s",
+					transfer.getAmount(), transfer.getSender().getId(), transfer.getReceiver().getId());
 		}
 		return Response.status(statusCode).entity(responseMessage).build();
 	}

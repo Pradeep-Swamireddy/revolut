@@ -22,9 +22,14 @@ public class AccountServiceImpl implements AccountService {
 			account.setCustomer(customer);
 			return accountRepo.addAccount(account);
 		} else {
-			LOG.error("Bank code from ");
+			LOG.error("Invalid Customer Id: " + customerId + " Or Bank code: " + bankCode);
 		}
 		return null;
+	}
+
+	@Override
+	public Account findAccount(long id) {
+		return accountRepo.findAccount(id);
 	}
 
 }

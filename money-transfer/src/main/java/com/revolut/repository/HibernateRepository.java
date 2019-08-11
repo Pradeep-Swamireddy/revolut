@@ -12,6 +12,7 @@ import org.jboss.logging.Logger;
 import com.revolut.entities.Account;
 import com.revolut.entities.Bank;
 import com.revolut.entities.Customer;
+import com.revolut.entities.Transfer;
 
 public interface HibernateRepository {
 	public static final Logger LOG = Logger.getLogger(HibernateRepository.class);
@@ -26,12 +27,12 @@ public interface HibernateRepository {
 			settings.put(Environment.USER, "sa");
 			settings.put(Environment.PASS, "password");
 			settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
-			settings.put(Environment.SHOW_SQL, "true");
+			settings.put(Environment.SHOW_SQL, "false");
 			settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 			settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 			configuration.setProperties(settings);
 			configuration.addAnnotatedClass(Bank.class).addAnnotatedClass(Customer.class)
-					.addAnnotatedClass(Account.class);
+					.addAnnotatedClass(Account.class).addAnnotatedClass(Transfer.class);
 			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 					.applySettings(configuration.getProperties()).build();
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);

@@ -6,4 +6,6 @@ public interface AccountRepository {
 
 	Account addAccount(Account account);
 
+	Account findAccount(long id);
+
 }

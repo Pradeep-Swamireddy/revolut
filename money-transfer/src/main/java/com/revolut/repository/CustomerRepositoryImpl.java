@@ -34,7 +34,7 @@ public class CustomerRepositoryImpl implements CustomerRepository, HibernateRepo
 		Transaction transaction = null;
 		try (Session session = getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			session.save(customer.getBank());
+			// session.save(customer.getBank());
 			session.save(customer);
 			transaction.commit();
 			return customer;
@@ -43,6 +43,7 @@ public class CustomerRepositoryImpl implements CustomerRepository, HibernateRepo
 				transaction.rollback();
 			}
 			LOG.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -77,6 +78,7 @@ public class CustomerRepositoryImpl implements CustomerRepository, HibernateRepo
 				return list.get(0);
 			} else {
 				LOG.error("Found more than 1 result for Customer Id: " + customerId + " ,Bank code: " + bankCode);
+				list.forEach(c -> LOG.error(c.getId() + c.getFirstName()));
 			}
 		} catch (Exception e) {
 			LOG.error(e.getMessage());

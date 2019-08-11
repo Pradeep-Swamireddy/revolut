@@ -1,5 +1,6 @@
 package com.revolut.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Customer {
 	@OneToOne(targetEntity = Customer.class)
 	private Account account;
 
-	@ManyToOne(targetEntity = Bank.class, optional = false)
+	@ManyToOne(targetEntity = Bank.class, optional = false,cascade = CascadeType.ALL)
 	private Bank bank;
 
 	public Customer(String firstName, String lastName, String address) {
