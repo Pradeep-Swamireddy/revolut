@@ -64,6 +64,14 @@ public class BankApiTest extends JerseyTest {
 
 	@Test
 	public void testMoneyTransfer() throws InvalidBalanceException {
+		Transfer transfer = createTransferObj();
+		Response transferOutput = target("/banks/B40/customers/1/accounts/2/transfers").request()
+				.post(Entity.entity(transfer, MediaType.APPLICATION_JSON));
+		assertEquals(Response.Status.OK.getStatusCode(), transferOutput.getStatus());
+		LOG.info(transferOutput.readEntity(String.class));
+	}
+
+	public Transfer createTransferObj() throws InvalidBalanceException {
 		Transfer transfer = new Transfer();
 		Account receiverAcc = new Account();
 		Bank bank = new Bank("B30", "Lloyds", "Canning Town");
@@ -74,14 +82,11 @@ public class BankApiTest extends JerseyTest {
 		receiverCust.setBank(bank);
 		receiverAcc.setCustomer(receiverCust);
 		receiverAcc.setBalance(10000);
-		transfer.setAmount(5000);
 		Account accAfterSave = accountService.addAccount(receiverAcc, bank.getCode(), receiverCust.getId());
 		accAfterSave.setCustomer(receiverCust);
 		transfer.setReceiver(accAfterSave);
-		Response transferOutput = target("/banks/B40/customers/1/accounts/1/transfers").request()
-				.post(Entity.entity(transfer, MediaType.APPLICATION_JSON));
-		assertEquals(Response.Status.OK.getStatusCode(), transferOutput.getStatus());
-		LOG.info(transferOutput.readEntity(String.class));
+		transfer.setAmount(5250);
+		return transfer;
 	}
 
 	@Override

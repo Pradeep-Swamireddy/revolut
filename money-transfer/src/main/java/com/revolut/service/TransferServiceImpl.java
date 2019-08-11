@@ -19,6 +19,8 @@ public class TransferServiceImpl implements TransferService {
 	public Transfer moneyTransfer(Transfer transfer) {
 		Account sender = accountService.findAccount(transfer.getSender().getId());
 		Account receiver = accountService.findAccount(transfer.getReceiver().getId());
+		LOG.info(sender);
+		LOG.info(receiver);
 		transfer.setSender(sender);
 		transfer.setReceiver(receiver);
 		if (transfer.getAmount() <= 0) {

@@ -99,6 +99,7 @@ public class BankApi {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response moneyTransfer(Transfer transfer, @PathParam("bankCode") String bankCode,
 			@PathParam("customerId") String customerId, @PathParam("accountId") String accountId) {
+		LOG.info("Inside");
 		Status statusCode;
 		String responseMessage;
 		Account senderAccount = new Account();

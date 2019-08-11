@@ -8,7 +8,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.jboss.logging.Logger;
@@ -16,23 +15,14 @@ import org.jboss.logging.Logger;
 import com.revolut.entities.Bank;
 import com.revolut.entities.Customer;
 
-public class CustomerRepositoryImpl implements CustomerRepository, HibernateRepository {
+public class CustomerRepositoryImpl implements CustomerRepository {
 
 	public static final Logger LOG = Logger.getLogger(CustomerRepositoryImpl.class);
-
-	private static SessionFactory sessionFactory;
-
-	private static SessionFactory getSessionFactory() {
-		if (sessionFactory == null) {
-			sessionFactory = HibernateRepository.createSessionFactory();
-		}
-		return sessionFactory;
-	}
 
 	@Override
 	public Customer addCustomer(Customer customer) {
 		Transaction transaction = null;
-		try (Session session = getSessionFactory().openSession()) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			// session.save(customer.getBank());
 			session.save(customer);
@@ -50,7 +40,7 @@ public class CustomerRepositoryImpl implements CustomerRepository, HibernateRepo
 
 	@Override
 	public Customer findCustomer(long customerId) {
-		try (Session session = getSessionFactory().openSession()) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.get(Customer.class, customerId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
@@ -65,7 +55,7 @@ public class CustomerRepositoryImpl implements CustomerRepository, HibernateRepo
 		bank.setCode(bankCode);
 		cust.setBank(bank);
 		cust.setId(customerId);
-		try (Session session = getSessionFactory().openSession()) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<Customer> query = builder.createQuery(Customer.class);
 			Root<Customer> root = query.from(Customer.class);
