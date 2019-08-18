@@ -45,27 +45,41 @@ public class CustomerApi {
 		return Response.status(statusCode).entity(responseMessage).build();
 	}
 
+	/*
+	 * @Path("/{customerId}/accounts")
+	 * 
+	 * @POST
+	 * 
+	 * @Consumes(MediaType.APPLICATION_JSON)
+	 * 
+	 * @Produces(MediaType.APPLICATION_JSON) public Response addAccount(Account
+	 * account, @PathParam("customerId") String customerId) { Status statusCode =
+	 * Status.NOT_ACCEPTABLE; //String responseMessage = "Failed to create Account";
+	 * Account responseAccount = account; try { Account newAccount =
+	 * accountService.addAccount(account, customerId); if (newAccount != null) {
+	 * statusCode = Status.OK; responseAccount = newAccount; String.format(
+	 * "Account No-%s, Initial balance-%s, created for Customer Id-%s successfully",
+	 * newAccount.getAccountNo(), newAccount.getBalance(),
+	 * newAccount.getCustomer().getCustomerId()); } } catch (Exception e) {
+	 * LOG.error(e.getMessage()); } return
+	 * Response.status(statusCode).entity(responseAccount).build(); }
+	 */
+
 	@Path("/{customerId}/accounts")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addAccount(Account account, @PathParam("customerId") String customerId) {
-		Status statusCode = Status.NOT_ACCEPTABLE;
-		//String responseMessage = "Failed to create Account";
+	public Account addAccount(Account account, @PathParam("customerId") String customerId) {
 		Account responseAccount = account;
 		try {
 			Account newAccount = accountService.addAccount(account, customerId);
 			if (newAccount != null) {
-				statusCode = Status.OK;
-				responseAccount =  newAccount;
-						/*String.format(
-						"Account No-%s, Initial balance-%s, created for Customer Id-%s successfully",
-						newAccount.getAccountNo(), newAccount.getBalance(), newAccount.getCustomer().getCustomerId());*/
+				responseAccount = newAccount;
 			}
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}
-		return Response.status(statusCode).entity(responseAccount).build();
+		return responseAccount;
 	}
 
 	@Path("/{customerId}")

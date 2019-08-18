@@ -1,5 +1,7 @@
 package com.revolut.banking.api.tests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigDecimal;
 
 import javax.ws.rs.client.Entity;
@@ -34,7 +36,7 @@ public class TransferApiTest extends JerseyTest {
 		createCustomer(customer1);
 		Account account1 = new Account();
 		account1.setBalance(BigDecimal.valueOf(10000));
-		createAccount(account1, customer1.getCustomerId());
+		account1 = createAccount(account1, customer1.getCustomerId());
 
 		Customer customer2 = new Customer();
 		customer2.setCustomerId("souji0202");
@@ -43,7 +45,7 @@ public class TransferApiTest extends JerseyTest {
 		createCustomer(customer2);
 		Account account2 = new Account();
 		account2.setBalance(BigDecimal.valueOf(5000));
-		createAccount(account2, customer2.getCustomerId());
+		account2 = createAccount(account2, customer2.getCustomerId());
 
 		Transfer transfer = new Transfer();
 		transfer.setTransferAmount(BigDecimal.valueOf(1000));
@@ -52,6 +54,7 @@ public class TransferApiTest extends JerseyTest {
 
 		Response transferOutput = target("/transfers").request()
 				.post(Entity.entity(transfer, MediaType.APPLICATION_JSON));
+		assertEquals(Response.Status.OK.getStatusCode(), transferOutput.getStatus(), "Should return Status OK");
 		LOG.info(transferOutput.readEntity(String.class));
 	}
 
@@ -60,13 +63,14 @@ public class TransferApiTest extends JerseyTest {
 		LOG.info(custOutput.readEntity(String.class));
 	}
 
-	public void createAccount(Account account, String customerId) {
+	public Account createAccount(Account account, String customerId) {
 		StringBuilder accountUrl = new StringBuilder("/customers/");
 		accountUrl.append(customerId).append("/accounts");
 		Response accOutput = target(accountUrl.toString()).request()
 				.post(Entity.entity(account, MediaType.APPLICATION_JSON));
 		Account savedAccount = accOutput.readEntity(Account.class);
 		LOG.info(savedAccount.toString());
+		return savedAccount;
 	}
 
 	@Override

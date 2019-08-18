@@ -31,7 +31,7 @@ public class Account {
 	@Version
 	@JsonIgnore
 	private long version;
-	@JsonProperty
+	@JsonIgnore
 	@OneToOne(mappedBy = "account")
 	private Customer customer;
 

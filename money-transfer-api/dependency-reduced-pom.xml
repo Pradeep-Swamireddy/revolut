@@ -54,7 +54,7 @@
                 <transformer />
                 <transformer>
                   <manifestEntries>
-                    <Main-Class>com.revolut.main.RunTests</Main-Class>
+                    <Main-Class>com.revolut.banking.main.RunTests</Main-Class>
                   </manifestEntries>
                 </transformer>
               </transformers>

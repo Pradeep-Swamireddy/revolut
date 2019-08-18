@@ -24,7 +24,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 				transaction = session.beginTransaction();
 				session.save(account);
 				transaction.commit();
-				LOG.info("Account created successfully- {}",account);
+				LOG.info("Account created successfully- {}", account);
 				return account;
 			} else {
 				throw new InvalidCustomerException("Customer Id: " + customerId + " is invalid");
@@ -40,7 +40,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public Account findAccount(long accountNo) {
-		LOG.info("Inside");
 		try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
 			Account account = session.get(Account.class, accountNo);
 			if (account != null) {
