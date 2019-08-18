@@ -39,6 +39,7 @@ public class TransferRepositoryImpl implements TransferRepository {
 				transaction.commit();
 				LOG.info(String.format("Balance After transfer - Sender: %s , Receiver: %s", sender.getBalance(),
 						receiver.getBalance()));
+				return transfer;
 			} else {
 				LOG.error(String.format("Transaction failed between Sender Id: %s and Receiver Id: %s",
 						transfer.getSender().getAccountNo(), transfer.getReceiver().getAccountNo()));
@@ -46,7 +47,6 @@ public class TransferRepositoryImpl implements TransferRepository {
 						"Sender/Receiver not found. Transaction failed between Sender Id: %s and Receiver Id: %s",
 						transfer.getSender().getAccountNo(), transfer.getReceiver().getAccountNo()));
 			}
-			return transfer;
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			throw new TransferException(e.getMessage());

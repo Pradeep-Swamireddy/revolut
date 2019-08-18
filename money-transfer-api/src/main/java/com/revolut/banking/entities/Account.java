@@ -3,6 +3,7 @@ package com.revolut.banking.entities;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,10 +36,10 @@ public class Account {
 	@OneToOne(mappedBy = "account")
 	private Customer customer;
 
-	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Transfer> senders;
 
-	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Transfer> receivers;
 
 	public long getAccountNo() {
