@@ -1,0 +1,92 @@
+package com.revolut.banking.entities;
+
+import java.math.BigDecimal;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.revolut.banking.exceptions.InvalidBalanceException;
+
+@Entity
+public class Account {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty
+	private long accountNo;
+	@NotNull
+	@Min(value = 0)
+	@JsonProperty
+	private BigDecimal balance;
+	@Version
+	@JsonIgnore
+	private long version;
+	@JsonProperty
+	@OneToOne(mappedBy = "account")
+	private Customer customer;
+
+	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+	private Set<Transfer> senders;
+
+	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
+	private Set<Transfer> receivers;
+
+	public long getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(long accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) throws InvalidBalanceException {
+		if (balance.compareTo(BigDecimal.valueOf(0.00)) < 0) {
+			throw new InvalidBalanceException("Insufficient balance for transfer: " + this.balance);
+		}
+		this.balance = balance;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Set<Transfer> getSenders() {
+		return senders;
+	}
+
+	public void setSenders(Set<Transfer> senders) {
+		this.senders = senders;
+	}
+
+	public Set<Transfer> getReceivers() {
+		return receivers;
+	}
+
+	public void setReceivers(Set<Transfer> receivers) {
+		this.receivers = receivers;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Account No: %s, Balance: %s, Customer: %s", accountNo, balance, customer);
+	}
+
+}
