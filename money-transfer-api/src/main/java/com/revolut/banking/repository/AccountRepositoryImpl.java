@@ -52,5 +52,4 @@ public class AccountRepositoryImpl implements AccountRepository {
 		}
 		return null;
 	}
-
 }

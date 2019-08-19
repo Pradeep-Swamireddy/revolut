@@ -37,9 +37,11 @@ public class Account {
 	@OneToOne(mappedBy = "account")
 	private Customer customer;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Transfer> senders;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Transfer> receivers;
 

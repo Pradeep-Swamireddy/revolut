@@ -8,4 +8,6 @@ public interface CustomerRepository {
 
 	boolean deleteCustomer(String customerId);
 
+	Customer findCustomer(String customerId);
+
 }

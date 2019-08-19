@@ -2,6 +2,7 @@ package com.revolut.banking.api;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -61,7 +62,23 @@ public class CustomerApi {
 		}
 		return responseAccount;
 	}
-
+	
+	@Path("/{customerId}/accounts/{accountId}")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Account getAccount(@PathParam("customerId") String customerId,@PathParam("accountId") long accountId) {
+		return accountService.findAccount(accountId);
+	}
+	
+	@Path("/{customerId}")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Customer getCustomer(@PathParam("customerId") String customerId) {
+		return customerService.findCustomer(customerId);
+	}
+	
 	@Path("/{customerId}")
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)

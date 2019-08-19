@@ -6,6 +6,5 @@ public interface AccountService {
 
 	Account addAccount(Account account, String customerId);
 
-	Account findAccount(long accountNo);
-
+	Account findAccount(long accountId);
 }

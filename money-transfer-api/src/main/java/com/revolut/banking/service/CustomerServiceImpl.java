@@ -35,4 +35,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepo.deleteCustomer(customerId);
 	}
 
+	@Override
+	public Customer findCustomer(String customerId) {
+		return customerRepo.findCustomer(customerId);
+	}
+
 }

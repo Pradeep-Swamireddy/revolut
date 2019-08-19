@@ -48,4 +48,21 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 		return false;
 	}
 
+	@Override
+	public Customer findCustomer(String customerId) {
+		Transaction transaction = null;
+		try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			Customer customer = session.get(Customer.class, customerId);
+			transaction.commit();
+			return customer;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			LOG.error(e.getMessage());
+		}
+		return null;
+	}
+
 }
