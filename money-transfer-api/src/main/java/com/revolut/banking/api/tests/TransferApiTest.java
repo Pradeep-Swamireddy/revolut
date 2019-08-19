@@ -30,6 +30,7 @@ public class TransferApiTest extends JerseyTest {
 
 	@Test
 	public void testTransferMoney() throws InvalidBalanceException {
+		LOG.info("========================Test for Money Transfer=======================");
 		Customer customer1 = new Customer();
 		customer1.setCustomerId("pradeepntg");
 		customer1.setFullName("Pradeep Swamireddy");
@@ -73,6 +74,7 @@ public class TransferApiTest extends JerseyTest {
 	
 	@Test
 	public void testFailedMoneyTransfer() throws InvalidBalanceException {
+		LOG.info("========================Test for Failed Money Transfer=======================");
 		Customer customer1 = new Customer();
 		customer1.setCustomerId("pradeepntg");
 		customer1.setFullName("Pradeep Swamireddy");
@@ -108,6 +110,16 @@ public class TransferApiTest extends JerseyTest {
 	}
 
 	public Account createAccount(Account account, String customerId) {
+		StringBuilder accountUrl = new StringBuilder("/customers/");
+		accountUrl.append(customerId).append("/accounts");
+		Response accOutput = target(accountUrl.toString()).request()
+				.post(Entity.entity(account, MediaType.APPLICATION_JSON));
+		Account savedAccount = accOutput.readEntity(Account.class);
+		LOG.info(savedAccount.toString());
+		return savedAccount;
+	}
+	
+	public Account getAccount(Account account, String customerId) {
 		StringBuilder accountUrl = new StringBuilder("/customers/");
 		accountUrl.append(customerId).append("/accounts");
 		Response accOutput = target(accountUrl.toString()).request()

@@ -15,11 +15,15 @@ import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.revolut.banking.exceptions.InvalidBalanceException;
 
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "accountNo")
 @Entity
 public class Account {
 	@Id
@@ -33,7 +37,6 @@ public class Account {
 	@Version
 	@JsonIgnore
 	private long version;
-	@JsonBackReference
 	@OneToOne(mappedBy = "account")
 	private Customer customer;
 
