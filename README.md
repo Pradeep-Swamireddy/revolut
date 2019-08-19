@@ -25,12 +25,17 @@ i) REST Api to Transfer Money from one Account to another:
          },
          "transferAmount":"200.525"
        }
+       
 ii)   Uses Jetty Embedded Server, H2 In-Memory Database, Jersey for REST and Hibenare for Persistence
+
 iii)  Unit Test cases to test the above mentioned APIs
+
 iv)   Maven Build Command:
          mvn clean package
+         
 v)    Command to run test cases:
          java -jar money-transfer-api.jar
+         
 vi)   Command to run main application:
       java -cp money-transfer-api.jar com.revolut.banking.main.TransferApp
 
