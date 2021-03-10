@@ -8,7 +8,7 @@
 	<name>money-transfer-api</name>
 	<description>REST API for money transfer between accounts</description>
 	<properties>
-		<jetty.version>9.4.17.v20190418</jetty.version>
+		<jetty.version>11.0.1</jetty.version>
 		<jersey.version>2.27</jersey.version>
 	</properties>
 	<dependencies>
